@@ -1,0 +1,162 @@
+
+@import "_variables";
+@import "_normalize";
+
+// BASIC
+
+
+html {
+  position: relative;
+}
+
+body, html {
+  font-size: 10px;
+  margin: 0;
+  background: $blue;
+  font-family: $generaltext;
+}
+
+.innerWrapper {
+  max-width: 1170px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+main {
+  margin-top: 85px;
+}
+
+.pages {
+  margin: 40px 0;
+  padding: 40px 30px;
+  background: $yellow;
+  box-shadow: 4px 4px 4px black;
+}
+
+input[type=radio] {
+  display: none;
+}
+
+label, input[type=submit], input[type=search], .storeSearch {
+  background: white;
+  padding: 10px;
+  border: $red 2px solid;
+  font-size: 1.5rem;
+  margin: 10px 5px;
+  display: inline-block;
+}
+
+
+input[type=radio]:checked + label, label:hover, label:focus, .storeSearch:hover, .storeSearch:focus {
+  background-color: $green;
+  border: $orange 2px solid;
+}
+
+input[type=submit], .storeSearch {
+  display: block;
+  background: $red;
+  color: white;
+}
+
+input[type=submit]:hover, input[type=submit]:focus {
+  background-color: $green;
+  border: $orange 2px solid;
+}
+
+.storeSearch {
+  text-decoration: none;
+  text-align: center;
+} 
+
+header {
+  position: relative;
+  text-align: center;
+  margin: 65px 0;
+  img {
+    max-width: 150px;
+    width: 15%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 1;
+  }
+}
+
+h1 {
+  font-family: $headertext;
+  font-size: 6rem;
+}
+
+h2 {
+  font-size: 2rem;
+  margin: 0 0 25px;
+  font-size: $secondtext;
+}
+
+.results, #storeResults {
+  background: white;
+  article {
+    display: inline-block;
+    padding: 25px;
+    flex: 0 0 175px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    h3 {
+      font-size: 1.5rem;
+    }
+    p {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    img {
+      width: 100%;
+    } 
+  }
+}
+
+footer {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.displayMobile {
+  display: none;
+}
+
+.findingStores {
+  position: absolute;
+  z-index: 3;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%);
+  width: 80%;
+  p {
+    font-size: 1.4rem;
+    margin: 0;
+  }
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: black;
+  opacity: 0.5;
+  display: none;
+  z-index: 2;
+}
+
+
+@import "_media";
+

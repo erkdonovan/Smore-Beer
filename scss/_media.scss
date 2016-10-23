@@ -1,0 +1,45 @@
+
+@media (max-width: 615px) {
+
+  header {
+    // h1 {
+    //   font-size: 5rem;
+    // }
+
+    img {
+      width: 100px;
+    }
+  }
+
+  .innerWrapper {
+    width: 80%;
+  }
+}
+ 
+
+@media (max-width: 650px) {
+  label {
+    display: block;
+  }
+
+  .displayDesktop {
+    display: none;
+  }
+
+  .displayMobile {
+    display: block;
+  }
+
+  header {
+    h1 {
+      font-size: 6rem;
+      margin: 30px 0 100px
+    }
+    img {
+      top: 95%;
+    }
+  }
+
+
+
+}

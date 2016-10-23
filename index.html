@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Perfect Beer for Camping</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Rancho|Roboto" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="overlay"></div>
+  <header>
+    <h1 id="header" class="displayDesktop">Perfect Beer for Your Camping Trip</h1>
+
+    <h1 class="displayMobile">Perfect Beer for Your Camping Trip</h1>
+
+    <img src="images/noun_532349_cc.png" alt="">
+    
+  </header>
+  <main>
+  
+    <div class="innerWrapper">
+      <section>
+        <form>
+          <section class="pages findbeers">
+            <h2>What type of chocolate do you like for s'mores?</h2>
+            <input type="radio" value="three" name="style" id="three">
+              <label for="three">Milk</label>
+            <input type="radio" value="four" name="style" id="four">
+              <label for="four">Medium</label>
+            <input type="radio" value="five" name="style" id="five">
+              <label for="five">Dark</label>
+            <input type="radio" value="two" name="style" id="two">
+              <label for="two">90% Dark</label>
+            <input type="radio" value="one" name="style" id="one">
+              <label for="one">Fruit Flavour</label>
+            <input type="submit" value="Find Beers">
+          </section>
+        </form>
+      </section>
+
+      <section class="results flex-container" id="results"></section>
+
+    </div>
+    
+    <div class="findingStores" id="postalSearch">
+      <section class="findstore pages">
+        <h2>Where are you going camping?</h2>
+        <form>
+          <input type="search" name="LCBOStores">
+          <p>(ex. A1A 1A1)</p>
+          <input type="submit" value="Find Store"> 
+        </form>
+      </section>
+      <section class="storeResults flex-container" id="storeResults"></section>
+    </div>
+
+    <footer>
+      <p>Made by: <a href="portfolio.erikadonovan.com" target="_blank">Erika Donovan</a></p>
+      <p>Campfire by Doejo from the Noun Project</p>
+    </footer>
+  </main>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="js/jquery.lettering-0.6.1.min.js"></script>
+  <script src="js/circletype.min.js"></script>
+
+  <script type="text/javascript">
+    $('#header').circleType({radius: 580});
+  </script>
+
+  <script type="text/javascript" src="js/script.js"></script>
+</body>
+</html>

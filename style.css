@@ -324,6 +324,10 @@ footer {
   margin: 0;
 }
 
+#storeResults article {
+  padding: 20px 10px;
+}
+
 .overlay {
   position: absolute;
   bottom: 0;

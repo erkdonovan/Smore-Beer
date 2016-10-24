@@ -212,18 +212,23 @@ beerApp.findingStores = function(beerInStores) {
 }; //beerApp.findingStores
 
 beerApp.storesAndInventories = function(storesandinv) {
-  //console.log("beerApp.storesAndInventories", storesandinv)
-  //take the returned store id number and compare it to the id number in the list returned from the postal code search
 
-  // storesandinv = storesandinv.filter(function(beerInStores) {
-  //   if (beerApp.inventoryResults.store_id === beerApp.storeResults.id) {
-  //     return beerInStores
-  //   }
+  $.when(beerApp.getInventory, beerApp.getStores)
+    .then(function(searchingInventory, searchingStores) {
 
-  // });
+      var matchedStores = function(beerInStores) {
+
+        beerInStores = beerInStores.filter(function() {
+          if (searchingInventory.store_id === searchingStores.id) {
+            return beerInStores.id
+          }
+        });
+      }
+
+  });
 
   beerApp.displayStores(storesandinv)
-  //console.log("storesandinv", storesandinv)
+
 }
 
 beerApp.displayStores = function(beerInStores) {
@@ -234,9 +239,9 @@ beerApp.displayStores = function(beerInStores) {
     //console.log('Display Stores', beerInStores);
 
     //this limits the list to only show the first 12
-    var limitedBeerinStores = beerInStores.slice(0, 12);
+    var beerInStores = beerInStores.slice(0, 12);
 
-    limitedBeerinStores.forEach(function(finalStores) {
+    beerInStores.forEach(function(finalStores) {
         var $storeArticle = $("<article>");
         var $storeName = $("<h3>").text(finalStores.name);
         var $storeAddress = $("<p>").text(finalStores.address_line_1);

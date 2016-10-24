@@ -2,6 +2,8 @@ var beerApp = {};
 
 beerApp.preferredStyle = "";
 
+beerApp.matchedStores = "";
+
 beerApp.lcboKey = "MDo4YjJkYmUwZS05NGQ1LTExZTYtOGExZC05N2M4MDNmYjMxYWQ6UzRKak1GUk1YZzBOZkpuV3RhOGVUTUU4ZU84ZXE4VzRidm5J"
 
 //APIs
@@ -216,18 +218,15 @@ beerApp.storesAndInventories = function(storesandinv) {
   $.when(beerApp.getInventory, beerApp.getStores)
     .then(function(searchingInventory, searchingStores) {
 
-      var matchedStores = function(beerInStores) {
-
-        beerInStores = beerInStores.filter(function() {
-          if (searchingInventory.store_id === searchingStores.id) {
-            return beerInStores.id
-          }
-        });
+      beerApp.matchedStores = function(beerInStores) {
+        if (searchingInventory.store_id === searchingStores.id) {
+          return searchingInventory.concat(searchingStores);
+        }
+          console.log(beerInStores);
       }
 
   });
-
-  beerApp.displayStores(storesandinv)
+  beerApp.displayStores(storesandinv);
 
 }
 
@@ -247,6 +246,7 @@ beerApp.displayStores = function(beerInStores) {
         var $storeAddress = $("<p>").text(finalStores.address_line_1);
         var $storeCity = $("<p>").text(finalStores.city + ", " + finalStores.postal_code);
         var $storeTelephone = $("<p>").text(finalStores.telephone);
+        //var $qtyInStock = $("<p>").text(finalStores.)
 
         $storeArticle.append($storeName, $storeAddress, $storeCity, $storeTelephone)
 

@@ -47,7 +47,7 @@ beerApp.getInventory = function(beer_id) {
 };
 
 beerApp.getStores = function(postal) {
-  console.log('beerApp.getStores', arguments);
+  //console.log('beerApp.getStores', arguments);
   $.ajax({
     url: "https://lcboapi.com/stores",
     method: "GET",
@@ -68,7 +68,7 @@ beerApp.getStores = function(postal) {
 //   $.ajax({
 //     url: "https://maps.googleapis.com/maps/api/js",
 //     method: "GET",
-//     dataType: "jsonp",
+//     dataType: "json",
 //     data: {
 //       key: "AIzaSyDIg8C5JxykmCE9DEYezBs7CH-XTxJIqvA",
 //       lat: lat,
@@ -171,21 +171,20 @@ beerApp.displayBeer = function(beer) {
     //give the objects something to hang out in
     $("#results").append($beerArticle);
 
-    //this loops over the beer ids - I don't know why
+    //this loops over the beer ids
     var loopedBeerIds = $(finalBeers.id).map(function() {
       return this
     }).get().join(", ");
 
+
   });
 
   beerApp.findingStores(beer);
-  console.log(beer)
 
 }; // beerApp.displayBeer
 
 
 beerApp.findingStores = function(beerInStores) {
-  console.log(beerInStores)
   //user to pick a beer
 
   $("body").on("click", ".storeSearch", function() {
@@ -210,31 +209,29 @@ beerApp.findingStores = function(beerInStores) {
 
  }); //body on click
 
-  beerApp.storesAndInventories(beerInStores)
-
 }; //beerApp.findingStores
 
 beerApp.storesAndInventories = function(storesandinv) {
-  console.log("beerApp.storesAndInventories", storesandinv)
+  //console.log("beerApp.storesAndInventories", storesandinv)
   //take the returned store id number and compare it to the id number in the list returned from the postal code search
 
-  storesandinv = storesandinv.filter(function(beerInStores) {
-    if (beerApp.inventoryResults.store_id === beerApp.storeResults.id) {
-      return beerInStores
-    }
+  // storesandinv = storesandinv.filter(function(beerInStores) {
+  //   if (beerApp.inventoryResults.store_id === beerApp.storeResults.id) {
+  //     return beerInStores
+  //   }
 
-  });
+  // });
 
   beerApp.displayStores(storesandinv)
-  console.log("storesandinv", storesandinv)
+  //console.log("storesandinv", storesandinv)
 }
 
 beerApp.displayStores = function(beerInStores) {
-  console.log("beerApp.displayStores", beerInStores)
+  //console.log("beerApp.displayStores", beerInStores)
 
     $("#storeResults").empty();
 
-    console.log('Display Stores', beerInStores);
+    //console.log('Display Stores', beerInStores);
 
     //this limits the list to only show the first 12
     var limitedBeerinStores = beerInStores.slice(0, 12);
@@ -253,6 +250,8 @@ beerApp.displayStores = function(beerInStores) {
         //beerApp.googeMap(limitedBeerinStores.latitude, limitedBeerinStores.longitude);
 
     });
+
+    //beerApp.googeMap(beerInStores)
 
 }
 

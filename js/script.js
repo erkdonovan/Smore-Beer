@@ -2,63 +2,33 @@ var beerApp = {};
 
 beerApp.preferredStyle = "";
 
-beerApp.storeResults = "";
-
-beerApp.inventoryResults = "";
+beerApp.lcboKey = "MDo4YjJkYmUwZS05NGQ1LTExZTYtOGExZC05N2M4MDNmYjMxYWQ6UzRKak1GUk1YZzBOZkpuV3RhOGVUTUU4ZU84ZXE4VzRidm5J"
 
 //APIs
 
-beerApp.getBeerPage1 = function() {
+beerApp.getBeerPage = function(pageNumber) {
+    if (isNaN(pageNumber)) {
+        //return empty if it's not a number
+        return $.when([]);
+    }
+
   return $.ajax({
     url: "https://lcboapi.com/products",
     method: "GET",
     dataType: "json",
     data: {
       per_page: 100,
-      page: 1,
+      page: pageNumber,
       format: "json",
         //remove if is_dead is equal to true
       where_not: "is_dead",
-      access_key: "MDo4YjJkYmUwZS05NGQ1LTExZTYtOGExZC05N2M4MDNmYjMxYWQ6UzRKak1GUk1YZzBOZkpuV3RhOGVUTUU4ZU84ZXE4VzRidm5J"
+      access_key: beerApp.lcboKey
     }
   });
 };
 
-
-beerApp.getBeerPage2 = function() {
-  return $.ajax({
-    url: "https://lcboapi.com/products",
-    method: "GET",
-    dataType: "json",
-    data: {
-      per_page: 100,
-      page: 2,
-      format: "json",
-        //remove if is_dead is equal to true
-      where_not: "is_dead",
-      access_key: "MDo4YjJkYmUwZS05NGQ1LTExZTYtOGExZC05N2M4MDNmYjMxYWQ6UzRKak1GUk1YZzBOZkpuV3RhOGVUTUU4ZU84ZXE4VzRidm5J"
-    }
-  });   
-};
-
-
-beerApp.getBeerPage3 = function() {
-  return $.ajax({
-    url: "https://lcboapi.com/products",
-    method: "GET",
-    dataType: "json",
-    data: {
-      per_page: 100,
-      page: 3,
-      format: "json",
-        //remove if is_dead is equal to true
-      where_not: "is_dead",
-      access_key: "MDo4YjJkYmUwZS05NGQ1LTExZTYtOGExZC05N2M4MDNmYjMxYWQ6UzRKak1GUk1YZzBOZkpuV3RhOGVUTUU4ZU84ZXE4VzRidm5J"
-    }
-  });   
-};
-
 beerApp.getInventory = function(beer_id) {
+    console.log('beerApp.getInventory', arguments);
   $.ajax({
     url: "https://lcboapi.com/inventories",
     method: "GET",
@@ -67,16 +37,17 @@ beerApp.getInventory = function(beer_id) {
       per_page: 100,
       format: "json",
       product_id: beer_id,
-      access_key: "MDo4YjJkYmUwZS05NGQ1LTExZTYtOGExZC05N2M4MDNmYjMxYWQ6UzRKak1GUk1YZzBOZkpuV3RhOGVUTUU4ZU84ZXE4VzRidm5J"
+      access_key: beerApp.lcboKey
     }
   }).then(function(allInventoryResults) {
-    beerApp.inventoryResults = allInventoryResults.result;
-    beerApp.findingStores(beerApp.inventoryResults);
+    inventoryResults = allInventoryResults.result;
+    beerApp.findingStores(inventoryResults);
   });
 
 };
 
 beerApp.getStores = function(postal) {
+  console.log('beerApp.getStores', arguments);
   $.ajax({
     url: "https://lcboapi.com/stores",
     method: "GET",
@@ -85,11 +56,11 @@ beerApp.getStores = function(postal) {
       per_page: 100,
       format: "json",
       geo: postal,
-      access_key: "MDo4YjJkYmUwZS05NGQ1LTExZTYtOGExZC05N2M4MDNmYjMxYWQ6UzRKak1GUk1YZzBOZkpuV3RhOGVUTUU4ZU84ZXE4VzRidm5J"
+      access_key: beerApp.lcboKey
     }
   }).then(function(allStoreResults) {
-    beerApp.storeResults = allStoreResults.result;
-    beerApp.storesAndInventories(beerApp.storeResults);
+    storeResults = allStoreResults.result;
+    beerApp.storesAndInventories(storeResults);
   });
 };
 
@@ -99,7 +70,7 @@ beerApp.getStores = function(postal) {
 //     method: "GET",
 //     dataType: "jsonp",
 //     data: {
-//       key: "AIzaSyDIg8C5JxykmCE9DEYezBs7CH-XTxJIqvA", 
+//       key: "AIzaSyDIg8C5JxykmCE9DEYezBs7CH-XTxJIqvA",
 //       lat: lat,
 //       lng: lng
 //     }
@@ -133,10 +104,10 @@ beerApp.theResults = function(LCBOResults) {
 }; // beerApp.theResults
 
 
-//user selects what chocolate type they will have and it filter through the preferred style type 
+//user selects what chocolate type they will have and it filter through the preferred style type
 
 beerApp.chocolatestyle = function(beerCans) {
-  
+
   beerCans = beerCans.filter(function(beerResults){
     //search if style contains a word from the value of the radio button selected in chocolate type
 
@@ -159,7 +130,8 @@ beerApp.chocolatestyle = function(beerCans) {
 }; // beerApp.chocolatestyle
 
 beerApp.displayBeer = function(beer) {
-  $("#results").empty(); 
+
+  $("#results").empty();
 
   beer = beer.filter(function(imagesOfBeer) {
     return imagesOfBeer.image_thumb_url !== null;
@@ -173,12 +145,12 @@ beerApp.displayBeer = function(beer) {
     var $beerArticle = $("<article>");
     var $beerBrandName = $("<h3>").text(finalBeers.name);
 
-    //Change the price from cents to dollars, need to have remainders and decimals  
+    //Change the price from cents to dollars, need to have remainders and decimals
     var beerInCents = (finalBeers.price_in_cents/100).toFixed(2);
     var $beerPrice = $("<p>").html("<strong>Price:</strong> $" + beerInCents);
 
     var $beerContainerType = $("<p>").html("<strong>For:</strong> " + finalBeers.package);
-    
+
     var type = finalBeers.varietal ? finalBeers.varietal : '~mystery beer~';
 
     var $beerStyleType = $("<p>").html("<strong>Type:</strong> " + type);
@@ -199,98 +171,98 @@ beerApp.displayBeer = function(beer) {
     //give the objects something to hang out in
     $("#results").append($beerArticle);
 
-    //this loops over the beer ids
+    //this loops over the beer ids - I don't know why
     var loopedBeerIds = $(finalBeers.id).map(function() {
       return this
     }).get().join(", ");
 
-    //and this takes the id and put it in the inventory search
-    beerApp.getInventory(loopedBeerIds);
-  
   });
 
   beerApp.findingStores(beer);
+  console.log(beer)
 
 }; // beerApp.displayBeer
 
 
 beerApp.findingStores = function(beerInStores) {
-  //user to pick a beer 
+  console.log(beerInStores)
+  //user to pick a beer
 
   $("body").on("click", ".storeSearch", function() {
-    
-    // var pickedBeer = $(".storeSearch").val();
-    // console.log(pickedBeer)
-    
+
     $(".findingStores").show();
     $("#storeResults").empty();
 
     $("form").on(".findstore submit", function(e) {
       e.preventDefault;
 
-
       //when user submits postal code - stick that in geo field (postal) // not sure this is doing anything
       var userPostalCode = $("input[type=search]").val();
       beerApp.getStores(userPostalCode);
 
     }); // postcode click
-    
-  $(".overlay").show();
-  $(".overlay").on("click", function() {
-    $(".overlay").hide();
-    $(".findingStores").hide();
-  });
+
+    $(".overlay").show();
+    $(".overlay").on("click", function() {
+      $(".overlay").hide();
+      $(".findingStores").hide();
+    });
 
  }); //body on click
+
+  beerApp.storesAndInventories(beerInStores)
 
 }; //beerApp.findingStores
 
 beerApp.storesAndInventories = function(storesandinv) {
+  console.log("beerApp.storesAndInventories", storesandinv)
   //take the returned store id number and compare it to the id number in the list returned from the postal code search
 
   storesandinv = storesandinv.filter(function(beerInStores) {
     if (beerApp.inventoryResults.store_id === beerApp.storeResults.id) {
       return beerInStores
     }
-    
+
   });
 
   beerApp.displayStores(storesandinv)
+  console.log("storesandinv", storesandinv)
 }
 
 beerApp.displayStores = function(beerInStores) {
+  console.log("beerApp.displayStores", beerInStores)
 
-$("#storeResults").empty();
+    $("#storeResults").empty();
 
-console.log(beerInStores)
+    console.log('Display Stores', beerInStores);
 
-//this limits the list to only show the first 12
-var limitedBeerinStores = beerInStores.slice(0, 12);
+    //this limits the list to only show the first 12
+    var limitedBeerinStores = beerInStores.slice(0, 12);
 
-limitedBeerinStores.forEach(function(finalStores) {
-  var $storeArticle = $("<article>");
-  var $storeName = $("<h3>").text(finalStores.name);
-  var $storeAddress = $("<p>").text(finalStores.address_line_1);
-  var $storeCity = $("<p>").text(finalStores.city + ", " + finalStores.postal_code);
-  var $storeTelephone = $("<p>").text(finalStores.telephone);
+    limitedBeerinStores.forEach(function(finalStores) {
+        var $storeArticle = $("<article>");
+        var $storeName = $("<h3>").text(finalStores.name);
+        var $storeAddress = $("<p>").text(finalStores.address_line_1);
+        var $storeCity = $("<p>").text(finalStores.city + ", " + finalStores.postal_code);
+        var $storeTelephone = $("<p>").text(finalStores.telephone);
 
-  $storeArticle.append($storeName, $storeAddress, $storeCity, $storeTelephone)
+        $storeArticle.append($storeName, $storeAddress, $storeCity, $storeTelephone)
 
-  $("#storeResults").append($storeArticle)
+        $("#storeResults").append($storeArticle)
 
-  //beerApp.googeMap(limitedBeerinStores.latitude, limitedBeerinStores.longitude);
+        //beerApp.googeMap(limitedBeerinStores.latitude, limitedBeerinStores.longitude);
 
-});
-
+    });
 
 }
 
 
 beerApp.beerSearching = function() {
+
   $("form").on(".findbeers submit", function(e) {
     e.preventDefault();
 
-    //maybe some values? 
+    //maybe some values?
 
     if ($("input[name=style]:checked").val() === "one"){
       beerApp.preferredStyle = ["Fruity","Floral"]
@@ -304,11 +276,11 @@ beerApp.beerSearching = function() {
       beerApp.preferredStyle = ["Full","Dark","Roasted"]
     }
 
-    $.when(beerApp.getBeerPage1(), beerApp.getBeerPage2(), beerApp.getBeerPage3())
+    $.when(beerApp.getBeerPage(1), beerApp.getBeerPage(2), beerApp.getBeerPage(3))
     .then(function(LCBOdata1,LCBOdata2,LCBOdata3) {
         //Combine threes arrays into one array
-      var LCBOResults = LCBOdata1[0].result.concat(LCBOdata2[0].result).concat(LCBOdata3[0].result);
-      
+      var LCBOResults = [].concat(LCBOdata1[0].result, LCBOdata2[0].result, LCBOdata3[0].result);
+      //console.log('Beer results', LCBOResults);
       beerApp.theResults(LCBOResults);
 
     });
@@ -321,14 +293,6 @@ beerApp.init = function() {
 
   beerApp.beerSearching();
 
-  beerApp.getInventory();
-
-  beerApp.getStores();
-
-  //beerApp.findingStores();
-
-  //beerApp.displayStores();
-
 };
 
 
@@ -336,4 +300,3 @@ beerApp.init = function() {
 $(function(){
   beerApp.init();
 });
-

@@ -30,7 +30,7 @@ beerApp.getBeerPage = function(pageNumber) {
 };
 
 beerApp.getInventory = function(beer_id) {
-    console.log('beerApp.getInventory', arguments);
+    //console.log('beerApp.getInventory', arguments);
   $.ajax({
     url: "https://lcboapi.com/inventories",
     method: "GET",
@@ -41,10 +41,11 @@ beerApp.getInventory = function(beer_id) {
       product_id: beer_id,
       access_key: beerApp.lcboKey
     }
-  }).then(function(allInventoryResults) {
-    inventoryResults = allInventoryResults.result;
-    beerApp.findingStores(inventoryResults);
   });
+  // }).then(function(allInventoryResults) {
+  //   inventoryResults = allInventoryResults.result;
+  //   beerApp.findingStores(inventoryResults);
+  // });
 
 };
 
@@ -60,10 +61,11 @@ beerApp.getStores = function(postal) {
       geo: postal,
       access_key: beerApp.lcboKey
     }
-  }).then(function(allStoreResults) {
-    storeResults = allStoreResults.result;
-    beerApp.storesAndInventories(storeResults);
   });
+  // }).then(function(allStoreResults) {
+  //   storeResults = allStoreResults.result;
+  //   beerApp.storesAndInventories(storeResults);
+  // });
 };
 
 // beerApp.googeMap = function(lat,lng){
@@ -102,6 +104,9 @@ beerApp.theResults = function(LCBOResults) {
   });
 
   beerApp.chocolatestyle(LCBOResults);
+
+
+          ////chain filters??
 
 }; // beerApp.theResults
 
@@ -163,7 +168,7 @@ beerApp.displayBeer = function(beer) {
 
     //Create a find in store button and store the beer id in the value //for no real reason because I don't need to grab it or I can't figure out
     var $storeSearchButton = $("<a>").text("Find in store").addClass("storeSearch").attr({
-      value: finalBeers.id, href: "#postalSearch" });
+      'data-id': finalBeers.id, href: "#postalSearch" });
 
      //stick them all together
     $textDiv.append($beerBrandName, $beerPrice, $beerContainerType, $beerStyleType);
@@ -189,17 +194,23 @@ beerApp.displayBeer = function(beer) {
 beerApp.findingStores = function(beerInStores) {
   //user to pick a beer
 
+
   $("body").on("click", ".storeSearch", function() {
 
     $(".findingStores").show();
     $("#storeResults").empty();
 
-    $("form").on(".findstore submit", function(e) {
+    $("form").on(".findingStores submit", function(e) {
       e.preventDefault;
 
       //when user submits postal code - stick that in geo field (postal) // not sure this is doing anything
       var userPostalCode = $("input[type=search]").val();
       beerApp.getStores(userPostalCode);
+
+      var beerID = $('this').data('id');
+      beerApp.getInventory(beerID);
+
+      beerApp.storesAndInventories(beerID, userPostalCode)
 
     }); // postcode click
 
@@ -213,20 +224,24 @@ beerApp.findingStores = function(beerInStores) {
 
 }; //beerApp.findingStores
 
-beerApp.storesAndInventories = function(storesandinv) {
+beerApp.storesAndInventories = function(beerID, userPostalCode) {
 
-  $.when(beerApp.getInventory, beerApp.getStores)
-    .then(function(searchingInventory, searchingStores) {
 
-      beerApp.matchedStores = function(beerInStores) {
-        if (searchingInventory.store_id === searchingStores.id) {
-          return searchingInventory.concat(searchingStores);
+  $.when(beerApp.getInventory(beerID), beerApp.getStores(userPostalCode))
+    .done(function(res1, res2) {
+
+      res2 = res2.filter (function(storesNearUser) {
+        for(var i = 0; i <= storesNearUser.length; i = i + 1) {
+          if (storesNearUser[i].id === beerID.store_id) {
+            return storesNearUser
+          }
         }
-          console.log(beerInStores);
-      }
+      });
+      
+
+      beerApp.displayStores(storesNearUser);
 
   });
-  beerApp.displayStores(storesandinv);
 
 }
 

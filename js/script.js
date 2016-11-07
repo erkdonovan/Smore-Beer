@@ -224,15 +224,15 @@ beerApp.findingStores = function(beerInStores) {
 
 }; //beerApp.findingStores
 
-beerApp.storesAndInventories = function(beerID, userPostalCode) {
+beerApp.storesAndInventories = function(storesNearUser) {
 
 
   $.when(beerApp.getInventory(beerID), beerApp.getStores(userPostalCode))
     .done(function(res1, res2) {
 
-      res2 = res2.filter (function(storesNearUser) {
-        for(var i = 0; i <= storesNearUser.length; i = i + 1) {
-          if (storesNearUser[i].id === beerID.store_id) {
+      userPostalCode = userPostalCode.filter(function(storesNearUser) {
+        for(var i = 0; i <= beerID.length; i = i + 1) {
+          if (storesNearUser.id === beerID[i].store_id) {
             return storesNearUser
           }
         }

@@ -200,7 +200,7 @@ header {
   background-image: url(images/photo-1475483768296-6163e08872a1.jpg);
   background-size: cover;
   background-position: center;
-  min-height: 40vh;
+  min-height: 60vh;
   text-align: center;
   color: #efefef;
   padding: 30px 0;
@@ -229,7 +229,7 @@ h2 {
 }
 
 main {
-  padding: 50px 0;
+  padding: 0 0 50px 0;
 }
 
 .flex-container {
@@ -246,6 +246,12 @@ main {
   margin: 40px 0;
   padding: 40px 30px;
   background: #3498db;
+}
+
+.findbeers {
+  margin: 0;
+  position: relative;
+  top: -20px;
 }
 
 footer {

@@ -151,7 +151,7 @@ beerApp.displayBeer = function(beer) {
 
     $beerArticle.append($imageDiv, $textDiv);
     //give the objects something to hang out in
-    $("#results").css({'padding': '20px'}).append($beerArticle);
+    $("#results").append($beerArticle);
 
     //this loops over the beer ids
     var loopedBeerIds = $(finalBeers.id).map(function() {

@@ -31,7 +31,7 @@ beerApp.getBeerPage = function(pageNumber) {
 
 beerApp.getInventory = function(beer_id) {
     //console.log('beerApp.getInventory', arguments);
-  $.ajax({
+  return $.ajax({
     url: "https://lcboapi.com/inventories",
     method: "GET",
     dataType: "json",
@@ -42,16 +42,11 @@ beerApp.getInventory = function(beer_id) {
       access_key: beerApp.lcboKey
     }
   });
-  // }).then(function(allInventoryResults) {
-  //   inventoryResults = allInventoryResults.result;
-  //   beerApp.findingStores(inventoryResults);
-  // });
-
 };
 
 beerApp.getStores = function(postal) {
   //console.log('beerApp.getStores', arguments);
-  $.ajax({
+  return $.ajax({
     url: "https://lcboapi.com/stores",
     method: "GET",
     dataType: "json",
@@ -62,27 +57,8 @@ beerApp.getStores = function(postal) {
       access_key: beerApp.lcboKey
     }
   });
-  // }).then(function(allStoreResults) {
-  //   storeResults = allStoreResults.result;
-  //   beerApp.storesAndInventories(storeResults);
-  // });
 };
 
-// beerApp.googeMap = function(lat,lng){
-//   $.ajax({
-//     url: "https://maps.googleapis.com/maps/api/js",
-//     method: "GET",
-//     dataType: "json",
-//     data: {
-//       key: "AIzaSyDIg8C5JxykmCE9DEYezBs7CH-XTxJIqvA",
-//       lat: lat,
-//       lng: lng
-//     }
-//   }).then(function(googlemap) {
-//     googlemapFindings = googlemap;
-//     console.log(googlemap);
-//   });
-// }
 
 //end of APIs
 
@@ -105,8 +81,6 @@ beerApp.theResults = function(LCBOResults) {
 
   beerApp.chocolatestyle(LCBOResults);
 
-
-          ////chain filters??
 
 }; // beerApp.theResults
 
@@ -139,6 +113,7 @@ beerApp.chocolatestyle = function(beerCans) {
 beerApp.displayBeer = function(beer) {
 
   $("#results").empty();
+  $(".pickchocolate").hide();
 
   beer = beer.filter(function(imagesOfBeer) {
     return imagesOfBeer.image_thumb_url !== null;
@@ -171,10 +146,10 @@ beerApp.displayBeer = function(beer) {
       'data-id': finalBeers.id, href: "#postalSearch" });
 
      //stick them all together
-    $textDiv.append($beerBrandName, $beerPrice, $beerContainerType, $beerStyleType);
+    $textDiv.append($beerBrandName, $beerPrice, $beerContainerType, $beerStyleType, $storeSearchButton);
     $imageDiv.append($beerImage);
 
-    $beerArticle.append($textDiv, $imageDiv, $storeSearchButton);
+    $beerArticle.append($imageDiv, $textDiv);
     //give the objects something to hang out in
     $("#results").append($beerArticle);
 
@@ -196,6 +171,8 @@ beerApp.findingStores = function(beerInStores) {
 
 
   $("body").on("click", ".storeSearch", function() {
+      var beerID = $(this).data('id');
+     // console.log(beerID);
 
     $(".findingStores").show();
     $("#storeResults").empty();
@@ -205,10 +182,6 @@ beerApp.findingStores = function(beerInStores) {
 
       //when user submits postal code - stick that in geo field (postal) // not sure this is doing anything
       var userPostalCode = $("input[type=search]").val();
-      beerApp.getStores(userPostalCode);
-
-      var beerID = $('this').data('id');
-      beerApp.getInventory(beerID);
 
       beerApp.storesAndInventories(beerID, userPostalCode)
 
@@ -224,23 +197,27 @@ beerApp.findingStores = function(beerInStores) {
 
 }; //beerApp.findingStores
 
-beerApp.storesAndInventories = function(storesNearUser) {
-
+beerApp.storesAndInventories = function(beerID, userPostalCode) {
+//console.log(beerID, userPostalCode);
 
   $.when(beerApp.getInventory(beerID), beerApp.getStores(userPostalCode))
     .done(function(res1, res2) {
+      //console.log(res1,res2);
 
-      userPostalCode = userPostalCode.filter(function(storesNearUser) {
-        for(var i = 0; i <= beerID.length; i = i + 1) {
-          if (storesNearUser.id === beerID[i].store_id) {
-            return storesNearUser
+      var beerInventory = res1[0].result
+      var storeLocations = res2[0].result
+      //console.log(beerInventory, storeLocations)
+
+      var storesNearUser = storeLocations.filter(function(store) {
+        for(var i = 0; i < beerInventory.length; i = i + 1){
+          if(beerInventory[i].store_id === store.id) {
+            return store
           }
         }
       });
-      
 
       beerApp.displayStores(storesNearUser);
-
+      //console.log(storesNearUser)
   });
 
 }
@@ -252,8 +229,8 @@ beerApp.displayStores = function(beerInStores) {
 
     //console.log('Display Stores', beerInStores);
 
-    //this limits the list to only show the first 12
-    var beerInStores = beerInStores.slice(0, 12);
+    //this limits the list to only show the first 10
+    var beerInStores = beerInStores.slice(0, 10);
 
     beerInStores.forEach(function(finalStores) {
         var $storeArticle = $("<article>");
@@ -285,14 +262,21 @@ beerApp.beerSearching = function() {
 
     if ($("input[name=style]:checked").val() === "one"){
       beerApp.preferredStyle = ["Fruity","Floral"]
+
     } else if ($("input[name=style]:checked").val() === "two") {
       beerApp.preferredStyle = ["Hoppy","Spicy"]
+      
     } else if ($("input[name=style]:checked").val() === "three") {
       beerApp.preferredStyle = ["Light"]
+
     } else if ($("input[name=style]:checked").val() === "four") {
       beerApp.preferredStyle = ["Medium"]
-    } else {
+
+    } else  if ($("input[name=style]:checked").val() === "five") {
       beerApp.preferredStyle = ["Full","Dark","Roasted"]
+
+    } else {
+      $('.pickchocolate').show();
     }
 
     $.when(beerApp.getBeerPage(1), beerApp.getBeerPage(2), beerApp.getBeerPage(3))
@@ -308,7 +292,6 @@ beerApp.beerSearching = function() {
 
 //calling my final functions to work
 beerApp.init = function() {
-  $(".findingStores").hide();
 
   beerApp.beerSearching();
 

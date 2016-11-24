@@ -10,10 +10,10 @@ html {
 }
 
 body, html {
-  font-size: 10px;
+  font-size: 12px;
   margin: 0;
-  background: $blue;
   font-family: $generaltext;
+  background: #10202f;
 }
 
 .innerWrapper {
@@ -22,22 +22,76 @@ body, html {
   margin: 0 auto;
 }
 
+header {
+  background-image: url(images/photo-1475483768296-6163e08872a1.jpeg);
+  background-size: cover;
+  background-position: center;
+  min-height: 40vh;
+  text-align: center;
+  color: #efefef;
+  padding: 30px 0;
+  position: relative;
+}
+
+.headertext {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+h1 {
+  font-family: $headertext;
+  font-size: 8rem;
+  padding: 1px;
+  margin: 0;
+}
+
+h2 {
+  font-size: 2rem;
+  font-size: $secondtext;
+  margin: 0;
+}
+
+main {
+  padding: 50px 0;
+}
+
 .flex-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
 
-main {
-  margin-top: 85px;
+.findingStores {
+  display: none;
 }
+
 
 .pages {
   margin: 40px 0;
   padding: 40px 30px;
-  background: $yellow;
-  box-shadow: 4px 4px 4px black;
+  background: $blue;
 }
+
+footer {
+  text-align: center;
+  color: #efefef;
+  padding: 20px 0;
+  font-size: 1.2rem;
+  a {
+    color: $yellow;
+    &:hover {
+      color: $blue;
+    }
+  }
+}
+
+.storeSearch {
+  text-decoration: none;
+  text-align: center;
+} 
+
 
 input[type=radio] {
   display: none;
@@ -54,8 +108,8 @@ label, input[type=submit], input[type=search], .storeSearch {
 
 
 input[type=radio]:checked + label, label:hover, label:focus, .storeSearch:hover, .storeSearch:focus {
-  background-color: $green;
-  border: $orange 2px solid;
+  background-color: $yellow;
+  border: $red 2px solid;
 }
 
 input[type=submit], .storeSearch {
@@ -65,43 +119,44 @@ input[type=submit], .storeSearch {
 }
 
 input[type=submit]:hover, input[type=submit]:focus {
-  background-color: $green;
-  border: $orange 2px solid;
+  background-color: $yellow;
+  border: $red 2px solid;
 }
 
-.storeSearch {
-  text-decoration: none;
-  text-align: center;
-} 
-
-header {
-  position: relative;
-  text-align: center;
-  margin: 65px 0;
-  img {
-    max-width: 150px;
-    width: 15%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%);
-    z-index: 1;
+.results {
+  background: white;
+  padding: 20px;
+  article {
+    display: inline-block;
+    padding: 25px;
+    flex: 0 0 50%;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    h3 {
+      font-size: 1.5rem;
+    }
+    p {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    .imageDiv {
+      width: 40%;
+      img {
+        width: calc(90% - 10px);
+        margin: 0 5px;
+        align-self: center;
+      } 
+    }
+    .textDiv {
+      width: 60%;
+    }
   }
 }
 
-h1 {
-  font-family: $headertext;
-  font-size: 6rem;
-}
-
-h2 {
-  font-size: 2rem;
-  margin: 0 0 25px;
-  font-size: $secondtext;
-}
-
-.results, #storeResults {
+#storeResults {
   background: white;
+  padding: 20px;
   article {
     display: inline-block;
     padding: 25px;
@@ -123,14 +178,6 @@ h2 {
   }
 }
 
-footer {
-  text-align: center;
-  font-size: 1.2rem;
-}
-
-.displayMobile {
-  display: none;
-}
 
 .findingStores {
   position: absolute;
@@ -159,6 +206,14 @@ footer {
   opacity: 0.5;
   display: none;
   z-index: 2;
+}
+
+.pickchocolate {
+  display: none;
+  background: white;
+  h3 {
+    font-size: 1.5rem;
+  }
 }
 
 

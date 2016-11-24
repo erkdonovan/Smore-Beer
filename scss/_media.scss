@@ -30,6 +30,14 @@
     display: block;
   }
 
+  .results article {
+    flex: 0 0 100%
+  }
+
+  input[type=search] {
+    width: calc(100% - 20px)
+  }
+
   header {
     h1 {
       font-size: 6rem;

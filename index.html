@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Perfect Beer for Camping</title>
+  <title>S'more Beer</title>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Rancho|Roboto" rel="stylesheet">
 
@@ -13,12 +13,10 @@
 <body>
 <div class="overlay"></div>
   <header>
-    <h1 id="header" class="displayDesktop">Perfect Beer for Your Camping Trip</h1>
-
-    <h1 class="displayMobile">Perfect Beer for Your Camping Trip</h1>
-
-    <img src="images/noun_532349_cc.png" alt="">
-    
+    <div class="headertext">
+      <h1 id="header" class="displayDesktop">S'more Beer</h1>
+      <h2>Find the perfect beer to go with your s'mores!</h2>
+    </div>
   </header>
   <main>
   
@@ -42,6 +40,10 @@
         </form>
       </section>
 
+      <section class="pickchocolate pages">
+        <h3>Please pick a chocolate flavour!</h3>
+      </section>
+
       <section class="results flex-container" id="results"></section>
 
     </div>
@@ -49,28 +51,23 @@
     <div class="findingStores" id="postalSearch">
       <section class="findstore pages">
         <h2>Where are you going camping?</h2>
+        <p>(enter the postal code below)</p>
         <form>
-          <input type="search" name="LCBOStores">
+          <input type="search" name="LCBOStores" placeholder="ex A1A1A1">
           <input type="submit" value="Find Store"> 
         </form>
       </section>
       <section class="storeResults flex-container" id="storeResults"></section>
     </div>
 
-    <footer>
-      <p>Made by: <a href="portfolio.erikadonovan.com" target="_blank">Erika Donovan</a></p>
-      <p>Campfire by Doejo from the Noun Project</p>
-    </footer>
   </main>
 
+    <footer>
+      <p>Made by: <a href="portfolio.erikadonovan.com" target="_blank">Erika Donovan</a></p>
+      <p>Campfire by: Doejo from the Noun Project / Name by: <a href="http://www.ilanalily.ca">Ilana Lily</a></p>
+    </footer>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="js/jquery.lettering-0.6.1.min.js"></script>
-  <script src="js/circletype.min.js"></script>
-
-  <script type="text/javascript">
-    $('#header').circleType({radius: 580});
-  </script>
 
   <script type="text/javascript" src="js/script.js"></script>
 </body>

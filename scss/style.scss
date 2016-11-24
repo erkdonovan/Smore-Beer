@@ -23,7 +23,7 @@ body, html {
 }
 
 header {
-  background-image: url(images/photo-1475483768296-6163e08872a1.jpeg);
+  background-image: url(images/photo-1475483768296-6163e08872a1.jpg);
   background-size: cover;
   background-position: center;
   min-height: 40vh;
@@ -38,6 +38,7 @@ header {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%
 }
 
 h1 {
@@ -155,7 +156,6 @@ input[type=submit]:hover, input[type=submit]:focus {
 
 #storeResults {
   background: white;
-  padding: 20px;
   article {
     display: inline-block;
     padding: 25px;

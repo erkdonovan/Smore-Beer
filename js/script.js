@@ -242,7 +242,7 @@ beerApp.displayStores = function(beerInStores) {
 
         $storeArticle.append($storeName, $storeAddress, $storeCity, $storeTelephone)
 
-        $("#storeResults").append($storeArticle)
+        $("#storeResults").css({'padding': '20px'}).append($storeArticle)
 
         //beerApp.googeMap(limitedBeerinStores.latitude, limitedBeerinStores.longitude);
 
